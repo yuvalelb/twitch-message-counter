@@ -43,8 +43,8 @@ if __name__ == '__main__':
         nick = input('please enter your twitch name\n').lower()
         password = input('and now your oauth token\n')
         f = open('config', 'wb')
-        f.writelines((nick + "\n").encode('utf-8'))
-        f.writelines((password + "\n").encode('utf-8'))
+        f.write((nick + "\n").encode('utf-8'))
+        f.write((password + "\n").encode('utf-8'))
     else:
         nick = f.readline().decode('utf-8')
         nick = nick[0:len(nick)-1]
@@ -148,8 +148,7 @@ if __name__ == '__main__':
 
     banned = []
     for baname in banlist.readlines():
-        baname.decode('utf-8')
-        banned.append(baname[:-1])
+        banned.append(baname[:-1].decode('utf-8'))
     banlist.close()
     chatlog = open('chat log.txt', 'rb')
     while choice != 'exit':
@@ -236,9 +235,12 @@ if __name__ == '__main__':
                 banlist = open('banlist.txt', 'ab')
             except:
                 banlist = open('banlist.txt', 'wb')
-            banlist.writelines([(mys + '\n').encode('utf-8') for mys in [s.strip() for s in names.split(',')]])
+            writeable = [(mys + '\n').encode('utf-8') for mys in [s.strip() for s in names.split(',')]]
+            for a in writeable:
+                banlist.write(a)
+                banned.append(a[:-1].decode('utf-8'))
             banlist.close()
-            banned.append([s.strip() for s in names.split(',')])
+            #banned.append([s.strip() for s in names.split(',')])
         else:
             print("error, couldn't find your choice, please try again")
         print('\n')
